@@ -60,12 +60,12 @@ const {
 } = styles;
 
 export default function StakingChart({
-     amountInFiat,
-     apy,
-     periodDays,
-     fiatCurrency,
-     cryptoId,
-}: StakingChartProps): JSX.Element {
+                                         amountInFiat,
+                                         apy,
+                                         periodDays,
+                                         fiatCurrency,
+                                         cryptoId,
+                                     }: StakingChartProps): JSX.Element {
     const {prices, theme} = useGlobalContext();
     const [totalGrowth, setTotalGrowth] = useState(0);
     const currentCrypto = coins.find(coin => coin.id === cryptoId);
@@ -110,6 +110,7 @@ export default function StakingChart({
         if (active && payload && payload.length) {
             const data = payload[0].payload;
             const p: Point | undefined = payload?.[0]?.payload;
+            const currencySymbol = fiatCurrency === "usd" ? "$" : "€";
 
             return (
                 <div className={clsx(barTooltip, {
@@ -118,13 +119,13 @@ export default function StakingChart({
                 })}>
                     <p>{`Month ${p?.monthIndex} — ${p?.daysElapsed} day(s)`}</p>
                     <p className={txtGreen}>
-                        Growth: €{data.growth.toLocaleString('en-US', {
+                        Growth: {currencySymbol}{data.growth.toLocaleString('en-US', {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2
                     })}
                     </p>
                     <p className={txtBlue}>
-                        Principal: €{data.principal.toLocaleString('en-US', {
+                        Principal: {currencySymbol}{data.principal.toLocaleString('en-US', {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2
                     })}
@@ -177,7 +178,7 @@ export default function StakingChart({
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart
                                     data={data}
-                                    margin={{top: 0, right: 0, left: -65, bottom: 0}}
+                                    margin={{top: 0, right: 0, left: -55, bottom: 0}}
                                     barGap={4}
                                 >
                                     <CartesianGrid strokeDasharray="3 3"
@@ -193,7 +194,18 @@ export default function StakingChart({
                                         axisLine={false}
                                         tickLine={false}
                                         tick={{fill: theme === "dark" ? '#9CA3AF' : '#6b7280', fontSize: 12}}
-                                        tickFormatter={(value) => `${fiatCurrency === "usd" ? "$" : "€"}${(value / 1000).toFixed(0)}k`}
+                                        tickFormatter={(value) => {
+                                            let formattedValue = value.toString();
+                                            const currencySymbol = fiatCurrency === "usd" ? "$" : "€";
+
+                                            if (value >= 1000 && value < 1000000) {
+                                                formattedValue = `${(value / 1000).toFixed(0)}k`;
+                                            } else if (value >= 1000000) {
+                                                formattedValue = `${(value / 1000000).toFixed(1).replace("0", "")}m`;
+                                            }
+
+                                            return `${currencySymbol}${formattedValue}`
+                                        }}
                                     />
                                     <Tooltip content={<CustomTooltip active={undefined} payload={undefined}/>}/>
                                     <Legend
