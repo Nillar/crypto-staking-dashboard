@@ -3,7 +3,7 @@
 🚀 A Next.js + React app that simulates **crypto staking** with real-time fiat–crypto conversion, live charts, and built-in documentation.  
 Designed to showcase **frontend engineering skills, architecture clarity, and clean UI/UX** — perfect for recruiters and collaborators.
 
-**URL**: https://crypto-staking-dashboard.vercel.app/
+**Live URL**: https://crypto-staking-dashboard.vercel.app/
 
 ---
 
