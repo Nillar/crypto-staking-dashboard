@@ -325,7 +325,7 @@ const fetchPrices = async () => {
                 </DocSection>
 
                 <DocSection title="Codebase">
-                    <p>All the code can be seen in <strong><a href="https://github.com/Nillar/crypto-staking-dashboard" style={{textDecoration: "underline"}}>Github</a></strong></p>
+                    <p>All the code can be seen in <strong><a href="https://github.com/Nillar/crypto-staking-dashboard" target="_blank" style={{textDecoration: "underline"}}>Github</a></strong></p>
                     <p>Feel free to ask me questions at the interview <Smile size={18} style={{display: "inline"}}/></p>
                 </DocSection>
             </DocLayout>
