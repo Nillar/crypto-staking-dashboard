@@ -1,0 +1,71 @@
+@use './variables' as *;
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+  transition: background-color .2s cubic-bezier(.55, .085, .68, .53), background .2s cubic-bezier(.55, .085, .68, .53), color .2s cubic-bezier(.55, .085, .68, .53), border .2s cubic-bezier(.55, .085, .68, .53);
+
+  @media (max-width: $screen-lg) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .errorWrap {
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    &.light {
+      background-color: $primary-white;
+      box-shadow: $box-shadow;
+
+      h1 {
+        color: $primary-dark-gray;
+      }
+    }
+
+    &.dark {
+      background-color: $primary-dark-gray;
+      border-color: $primary-dark-blue;
+
+      h1 {
+        color: $primary-white;
+      }
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 32px;
+    }
+
+    button {
+      padding: 12px 18px;
+      border-radius: 12px;
+      background-color: $primary-red;
+      color: $primary-white;
+      width: 150px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: background-color .2s cubic-bezier(.55, .085, .68, .53), color .2s cubic-bezier(.55, .085, .68, .53), border .2s cubic-bezier(.55, .085, .68, .53);
+
+      &:hover {
+        background-color: $primary-white;
+        border: 2px solid $primary-red;
+        color: $primary-red;
+      }
+    }
+  }
+}
+
+.documentation {
+  .retryBtnImg {
+    object-fit: contain;
+    width: 150px;
+  }
+}

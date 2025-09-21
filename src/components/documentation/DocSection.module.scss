@@ -1,0 +1,68 @@
+@use "../../assets/styles/variables" as *;
+
+.section {
+  &.light {
+    .subheading {
+      border-left: 4px solid $ico-blue;
+    }
+  }
+
+  &.dark {
+    .subheading {
+      border-left: 4px solid $ico-purple;
+    }
+  }
+}
+
+.heading {
+  font-size: 28px;
+  line-height: 38px;
+  font-weight: 600;
+  margin-top: 18px;
+  margin-bottom: 18px;
+}
+
+.subheading {
+  font-size: 22px;
+  line-height: 32px;
+  font-weight: 500;
+  margin-bottom: 18px;
+  padding-left: 10px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  p {
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  ul,
+  ol {
+    padding-left: 24px;
+    line-height: 1.6;
+    list-style: disc;
+
+    li {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      position: relative;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  ul li::marker {
+    color: $ico-blue;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+}
+

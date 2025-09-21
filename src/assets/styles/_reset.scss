@@ -1,0 +1,60 @@
+/* _reset.scss */
+
+/* Box sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margins and paddings */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove list styles (ul, ol) */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Remove text decoration and inherit color for links */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Reset headings */
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/* Reset form elements */
+button,
+input {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  outline: none;
+  appearance: none;
+}
+
+/* Reset images and media */
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Ensure body takes full height */
+html, body {
+  height: 100%;
+}
+
+/* Default body style */
+body {
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -1,0 +1,49 @@
+@use "reset";
+@use "variables" as *;
+
+html {
+  scroll-behavior: smooth;
+
+  &.light {
+    scrollbar-color: $primary-gray transparent;
+  }
+
+  &.dark {
+    scrollbar-color: $primary-light-gray transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+  }
+}
+
+:root,
+body {
+  transition: all .2s cubic-bezier(.55, .085, .68, .53);
+}
+
+:root {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+
+  &.light {
+    background: $primary-light-gray;
+  }
+
+  &.dark {
+    background: $primary-black;
+  }
+
+}
+
+body {
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+main {
+  max-width: 1224px;
+  margin: 0 auto;
+  padding: 112px 24px 32px;
+}
+  

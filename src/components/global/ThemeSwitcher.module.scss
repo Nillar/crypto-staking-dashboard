@@ -1,0 +1,63 @@
+@use "../../assets/styles/variables" as *;
+
+.toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 56px;
+  height: 29px;
+  border-radius: 999px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  outline: none;
+
+  &.light {
+    background-color: $secondary-white;
+
+    .slider {
+      background-color: $primary-light-gray;
+    }
+  }
+
+  &.dark {
+    background-color: $secondary-light-gray;
+
+    .slider {
+      background-color: $primary-dark-gray;
+    }
+  }
+}
+
+.iconWrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.slider {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),  background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+  z-index: 2;
+  will-change: transform;
+}
+
+.sliderLeft {
+  transform: translateX(0);
+}
+
+.sliderRight {
+  transform: translateX(28px);
+}
+  

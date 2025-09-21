@@ -1,0 +1,66 @@
+@use "../../assets/styles/variables" as *;
+
+.wrap {
+  padding: 32px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  transition: all .2s cubic-bezier(.55, .085, .68, .53);
+  border: 1px solid transparent;
+
+  &.light {
+    background-color: $primary-white;
+    box-shadow: $box-shadow;
+    color: $primary-dark-gray;
+
+    .iconContainer {
+      background-color: $secondary-light-blue;
+    }
+  }
+
+  &.dark {
+    background-color: $primary-dark-gray;
+    border-color: $primary-dark-blue;
+    color: $primary-white;
+
+    .iconContainer {
+      background-color: $secondary-dark-blue;
+    }
+  }
+  
+  @media (max-width: $screen-lg) {
+    padding: 0;
+    border: none;
+
+    &.light,
+    &.dark {
+      box-shadow: none;
+      background-color: transparent;
+    }
+
+  }
+}
+
+.headingContainer {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+
+  .iconContainer {
+    padding: 12px;
+    border-radius: 12px;
+    color: $ico-blue;
+  }
+
+  h1 {
+    font-size: 32px;
+    line-height: 48px;
+    font-weight: 700;
+
+    @media (max-width: $screen-lg) {
+      font-size: 24px;
+      line-height: 36px;
+    }
+  }
+}

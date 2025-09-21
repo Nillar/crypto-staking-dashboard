@@ -1,0 +1,36 @@
+// Colors
+$primary-black: #000000;
+$primary-gray: #4d4d4d; // use for scrollbar
+//$primary-light-gray: #f6f7f9; // use for body bg light
+$primary-dark-gray: #111827; // use for components bg dark, use for text when theme is light
+$primary-white: #ffffff; // use for components bg light, use for text when theme is dark
+$primary-dark-blue: #1f2937; // this is for all wrapping elements' border + inputs background on dark mode
+$primary-light-gray: #fcfcfc; // use for bg on inputs on light theme
+$primary-red: #f52c31; // use for Retry button if there is API fetch error
+
+$secondary-white: #d1d5db; // this is for all input border color on light theme + labels on dark theme
+$secondary-light-gray: #374151; // use for borders on when theme is dark
+$secondary-light-blue: #eff6ff; // use for bitcoin icon bg and current price in metrics on light theme
+$secondary-dark-blue: #1E3A8A7F; // use for bitcoin icon bg and current price box in metrics on dark theme
+$secondary-light-green: #f0fdf4; // use for APY box in metrics on light theme
+$secondary-dark-green: #14532d33; // use for APY box in metrics on dark theme
+$secondary-light-purple: #faf5ff; // use for growth box in metrics on light theme
+$secondary-dark-purple: #581c8733; // use for growth box in metrics on dark theme
+
+$tertiary-light-blue: #dbeafe; // use for bitcoin icon in current price box on light theme
+$tertiary-dark-blue: #1e3a8a; // use for bitcoin icon in current price box on light theme
+$tertiary-light-green: #dcfce7; // use for apy box background on light theme
+$tertiary-dark-green: #14532d80; // use for apy icon in apy box on light theme
+$tertiary-light-purple: #f3e8ff; // use for growth box background on light theme
+$tertiary-dark-purple: #581c8780; //  use for growth box background on dark theme
+
+$ico-purple: #a855f7; // use for icon in growth box on both themes
+$ico-green: #22c55e; // use for apy icon in apy box on light theme
+$ico-blue: #3b82f6; // use for apy icon in apy box on light theme
+
+// Box Shadow
+$box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.15);
+
+// Breakpoints
+$screen-sm: 480px;
+$screen-lg: 1000px;

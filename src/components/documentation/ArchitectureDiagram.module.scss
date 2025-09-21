@@ -1,0 +1,94 @@
+@use "../../assets/styles/variables" as *;
+
+.diagramWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 24px;
+  overflow: visible;
+  flex-wrap: wrap;
+
+  @media (max-width: $screen-lg) {
+    overflow-x: auto;
+  }
+
+  h3 {
+    text-align: center;
+    font-size: 24px;
+    line-height: 38px;
+    font-weight: 600;
+  }
+}
+
+.diagramSvg {
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  overflow: visible;
+  z-index: 5;
+  min-width: 800px;
+}
+
+.foWrap {
+  overflow: visible;
+}
+
+.box {
+  position: relative;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba($primary-black, 0.15);
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border 0.3s ease-in-out;
+  cursor: pointer;
+
+  &:hover .tooltip {
+    opacity: 1;
+    transform: translate(-50%, -10%);
+    pointer-events: auto;
+  }
+
+  &.light {
+    background-color: $primary-white;
+    color: $primary-dark-gray;
+    border: 1px solid $secondary-white;
+  }
+
+  &.dark {
+    background-color: $primary-dark-blue;
+    color: $primary-white;
+    border: 1px solid $secondary-light-gray;
+  }
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 300px;
+  transform: translate(-50%, -50%);
+  background: $primary-black;
+  color: $primary-white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 18px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+
+  @media (max-width: $screen-lg) {
+    width: 250px;
+  }
+}
+
+.arrow {
+  stroke: $tertiary-light-blue;
+  stroke-width: 2;
+}
+
+.arrowHead {
+  fill: $tertiary-light-blue;
+}
