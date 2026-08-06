@@ -14,6 +14,7 @@ import {
 } from "recharts";
 import styles from "./StakingChart.module.scss";
 import {coins} from "@/lib/coins";
+import {calculateGrowthSeries, formatAxisValue, type GrowthPoint} from "@/lib/staking";
 import {
     TrendingUp,
     DollarSign,
@@ -31,14 +32,7 @@ type StakingChartProps = {
     cryptoId: string; // must be CoinGecko id, e.g. "bitcoin"
 };
 
-type Point = {
-    monthIndex: number;
-    daysElapsed: number;
-    principal: number;
-    growth: number;
-    totalFiat: number;
-    label: string;
-};
+type Point = GrowthPoint;
 
 const {
     wrap,
@@ -73,27 +67,8 @@ export default function StakingChart({
     const price = prices[cryptoId]?.[fiatCurrency] ?? null;
 
     const data: Point[] = useMemo(() => {
-        const months = Math.round(periodDays / 30);
-        const dailyRate = apy / 100 / 365;
-        const points: Point[] = [];
-
-        for (let m = 0; m <= months; m++) {
-            const daysElapsed = Math.min(periodDays, m * 30);
-            const growthFactor = Math.pow(1 + dailyRate, daysElapsed);
-            const totalFiat = amountInFiat * growthFactor;
-
-            points.push({
-                monthIndex: m,
-                daysElapsed,
-                principal: amountInFiat,
-                growth: totalFiat - amountInFiat,
-                totalFiat,
-                label: `${m}m`,
-            });
-        }
-
+        const points = calculateGrowthSeries({amountInFiat, apy, periodDays});
         setTotalGrowth(points[points.length - 1].growth);
-
         return points;
     }, [amountInFiat, apy, periodDays]);
 
@@ -194,18 +169,7 @@ export default function StakingChart({
                                         axisLine={false}
                                         tickLine={false}
                                         tick={{fill: theme === "dark" ? '#9CA3AF' : '#6b7280', fontSize: 12}}
-                                        tickFormatter={(value) => {
-                                            let formattedValue = value.toString();
-                                            const currencySymbol = fiatCurrency === "usd" ? "$" : "€";
-
-                                            if (value >= 1000 && value < 1000000) {
-                                                formattedValue = `${(value / 1000).toFixed(0)}k`;
-                                            } else if (value >= 1000000) {
-                                                formattedValue = `${(value / 1000000).toFixed(1).replace("0", "")}m`;
-                                            }
-
-                                            return `${currencySymbol}${formattedValue}`
-                                        }}
+                                        tickFormatter={(value) => formatAxisValue(value, fiatCurrency === "usd" ? "$" : "€")}
                                     />
                                     <Tooltip content={<CustomTooltip active={undefined} payload={undefined}/>}/>
                                     <Legend
