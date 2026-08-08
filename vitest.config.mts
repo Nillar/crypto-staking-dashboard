@@ -9,5 +9,7 @@ export default defineConfig({
     setupFiles: ["./vitest.setup.ts"],
     css: true,
     passWithNoTests: true,
+    // e2e/ holds Playwright specs, run via `npm run test:e2e`, not Vitest.
+    exclude: ["**/node_modules/**", "**/e2e/**"],
   },
 });
