@@ -17,9 +17,9 @@ export default defineConfig({
         },
     ],
     webServer: {
-        // Dev server for fast local iteration. Swap for `npm run build && npm run start`
-        // in CI once Step 6 wires this into a pipeline, to catch build-time issues too.
-        command: "npm run dev",
+        // Dev server for fast local iteration. CI builds separately and serves the
+        // production build instead, to also catch build-time issues.
+        command: process.env.CI ? "npm run start" : "npm run dev",
         url: "http://localhost:3000",
         reuseExistingServer: !process.env.CI,
         timeout: 120_000,
