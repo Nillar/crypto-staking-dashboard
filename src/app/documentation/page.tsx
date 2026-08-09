@@ -324,6 +324,147 @@ const fetchPrices = async () => {
                     }/>
                 </DocSection>
 
+                <DocSection
+                    title="Testing"
+                    subtitle="Four layers of confidence"
+                >
+                    <p>
+                        The app is covered by a full test suite that runs from pure logic all
+                        the way up to a real browser, wired into CI so every push and pull
+                        request is verified automatically.
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Unit tests</strong> – pure functions like the staking-growth
+                            math and the debounce hook, tested in isolation with no rendering
+                            involved.
+                        </li>
+                        <li>
+                            <strong>Component tests</strong> – individual components (
+                            <code>StakingForm</code>, <code>StakingChart</code>,{" "}
+                            <code>ThemeSwitcher</code>, <code>Header</code>) rendered with{" "}
+                            <strong>React Testing Library</strong>, wired to a real{" "}
+                            <code>GlobalContext</code> with a stubbed CoinGecko response.
+                        </li>
+                        <li>
+                            <strong>Integration tests</strong> – multiple real units exercised
+                            together, e.g. the full dashboard page driving{" "}
+                            <code>StakingForm</code> → <code>StakingChart</code> through an actual
+                            debounce cycle, and <code>GlobalContext</code>&apos;s
+                            loading/error/theme state machine.
+                        </li>
+                        <li>
+                            <strong>End-to-end tests</strong> – <strong>Playwright</strong> driving
+                            a real Chromium browser against the running app, with the CoinGecko API
+                            intercepted via <code>page.route()</code> so runs stay deterministic.
+                        </li>
+                    </ul>
+
+                    <p><strong>Unit test</strong> – the compounding-growth math, tested with plain input/output assertions:</p>
+                    <CodeBlock
+                        language="ts"
+                        code={`
+// src/lib/staking.test.ts
+it("compounds the principal over the staking period", () => {
+  const series = calculateGrowthSeries({
+    amountInFiat: 1000,
+    apy: 12,
+    periodDays: 90,
+  });
+
+  const last = series[series.length - 1];
+  expect(last.totalFiat).toBeGreaterThan(1000);
+  expect(last.growth).toBeCloseTo(last.totalFiat - last.principal);
+});
+          `}
+                    />
+
+                    <p><strong>Component test</strong> – switching coins updates <code>StakingForm</code>&apos;s output:</p>
+                    <CodeBlock
+                        language="tsx"
+                        code={`
+// src/components/staking/StakingForm.test.tsx
+it("recalculates APY and symbol when the coin changes", async () => {
+  const onChangeAction = vi.fn();
+  const { user } = renderWithGlobalContext(
+    <StakingForm onChangeAction={onChangeAction} />
+  );
+
+  await user.click(screen.getByText("BTC — Bitcoin"));
+  await user.click(screen.getByText("ETH — Ethereum"));
+
+  await waitFor(() =>
+    expect(onChangeAction).toHaveBeenLastCalledWith(
+      expect.objectContaining({ cryptoId: "ethereum", cryptoSymbol: "ETH" })
+    )
+  );
+});
+          `}
+                    />
+
+                    <p><strong>Integration test</strong> – the real dashboard page, error state and retry flow:</p>
+                    <CodeBlock
+                        language="tsx"
+                        code={`
+// src/app/page.test.tsx
+it("shows an error banner and recovers after a successful retry", async () => {
+  const fetchMock = stubFetchWithPrices(mockCoinPrices(), false);
+  renderWithGlobalContext(<Page />);
+
+  expect(await screen.findByText(/API error/i)).toBeInTheDocument();
+
+  fetchMock.mockResolvedValueOnce({
+    ok: true,
+    json: async () => mockCoinPrices(),
+  });
+  await userEvent.click(screen.getByRole("button", { name: /retry/i }));
+
+  await waitFor(() =>
+    expect(screen.queryByText(/API error/i)).not.toBeInTheDocument()
+  );
+});
+          `}
+                    />
+
+                    <p><strong>E2E test</strong> – a real browser, with the CoinGecko API stubbed at the network layer:</p>
+                    <CodeBlock
+                        language="ts"
+                        code={`
+// e2e/dashboard.spec.ts
+test("updates the chart after picking a different coin and amount", async ({ page }) => {
+  await mockCoinGeckoPrices(page);
+  await page.goto("/");
+
+  await page.getByLabel(/Amount in USD/i).fill("20000");
+  await page.getByText("BTC — Bitcoin").click();
+  await page.getByText("ETH — Ethereum").click();
+
+  await expect(page.getByText("Metrics for Ethereum")).toBeVisible();
+});
+          `}
+                    />
+
+                    <p>Everything runs via a few npm scripts:</p>
+                    <CodeBlock
+                        language="bash"
+                        code={`
+npm run test         # unit + component + integration tests (Vitest, single run)
+npm run test:watch   # same, in watch mode
+npm run test:e2e     # Playwright, headless
+npm run test:e2e:ui  # Playwright, interactive UI mode
+          `}
+                    />
+
+                    <p>
+                        A <strong>GitHub Actions</strong> workflow (<code>.github/workflows/ci.yml</code>)
+                        runs on every push to <code>main</code> and every pull request: a{" "}
+                        <code>lint-and-unit</code> job runs ESLint and the Vitest suite, and a
+                        second <code>e2e</code> job builds the app and runs the full Playwright
+                        suite against it, uploading the HTML report as an artifact if anything
+                        fails.
+                    </p>
+                </DocSection>
+
                 <DocSection title="Codebase">
                     <p>All the code can be seen in <strong><a href="https://github.com/Nillar/crypto-staking-dashboard" target="_blank" style={{textDecoration: "underline"}}>Github</a></strong></p>
                     <p>Feel free to ask me questions at the interview <Smile size={18} style={{display: "inline"}}/></p>
